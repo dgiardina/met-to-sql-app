@@ -201,9 +201,11 @@ def push_sql_func(staname, sta_id, sql_id,df,engine,if_exist):
     else:
         df['TIMESTAMP'] = df['TIMESTAMP'].apply(convert_datetime) # apply convert_datetime function to convert 24:00:00 to 00:00:00 the following day
         df['TIMESTAMP'] = pd.to_datetime(df['TIMESTAMP'])
+        timestamp = df['TIMESTAMP']
         df = df.loc[:, df.columns != 'TIMESTAMP'].apply(pd.to_numeric, args=('coerce',))
-
-        print(df)
+        df.insert(0,'TIMESTAMP','')
+        df['TIMESTAMP'] = timestamp
+        # print(df)
         df.columns = [x.lower() for x in df.columns]
         df.insert(0,'staname','')
         df.insert(0,'sql_id','')
@@ -237,11 +239,11 @@ def init_func(staname, sta_id, sql_id, engine):
 
 #%% DEFINE THE DATABASE CREDENTIALS
 
-# user = 'postgres'
-# password = 'meso_admin'
-# host = 'localhost'
-# port = 5432
-# database = 'meso_test_db'
+user = 'postgres'
+password = 'meso_admin'
+host = 'localhost'
+port = 5432
+database = 'meso_test_db'
 
 user = 'doadmin'
 password = 'AVNS_G0omF3CL7Ptl1Q_rRRQ'
